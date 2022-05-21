@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface JugadorRepositoryMongo extends MongoRepository<JugadorMongo, String> {
 
-
+    public abstract JugadorMongo findByEmail(String email);
+    public abstract JugadorMongo getById(String id);
 }

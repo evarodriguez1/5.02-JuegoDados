@@ -1,25 +1,33 @@
 package com.juegoDados.juegoDados.models;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import javax.persistence.Id;
 import java.util.Date;
 
-@Document(collection = "users")
+@Data
+@Document(collection = "JugadorMongo")
 public class JugadorMongo {
 
     @Getter @Setter
-    @Id
+    @MongoId
+    @Field(name="id")
     private String id;
 
+    @Field(name="nombre")
     @Getter @Setter
     private String nombre;
 
+    @Field(name="email")
     @Getter @Setter
     private String email;
 
+    @Field(name="date")
     @Getter @Setter
     private Date date;
 

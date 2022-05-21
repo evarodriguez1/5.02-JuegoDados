@@ -21,7 +21,7 @@ public class Porcentaje implements Comparable<Porcentaje>{
         this.porcentaje = porcentaje;
     }
 
-    //este metodo compara los dos porcentajes
+    //este metodo compara los diferente porcentajes de las lista de jugadores
     @SuppressWarnings("deprecation")
     @Override
     public int compareTo(Porcentaje o) {

@@ -20,7 +20,7 @@ public class ControllerMongo {
     @PostMapping()
     public ResponseEntity createUser(@RequestBody JugadorMongo jugadorMongo) {
         String mensaje = jugadorServiceMongo.verifyUserData(jugadorMongo);
-        if(mensaje.equals("creado")) {
+        if(mensaje.equals("creadoMongo")) {
             jugadorServiceMongo.createUser(jugadorMongo);
             return (ResponseEntity.status(HttpStatus.OK))
                     .body(jugadorMongo);

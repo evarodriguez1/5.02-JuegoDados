@@ -22,14 +22,14 @@ public class JugadorLoginController {
     @Autowired
     JWTService jwtService;
     @Autowired
-    JugadorServices jugadorServices;
-    //JugadorServiceMongo jugadorServiceMongo;
+    //JugadorServices jugadorServices;
+    JugadorServiceMongo jugadorServiceMongo;
 
     @PostMapping()
     public ResponseEntity login(@RequestParam("user") String username) {
         try {
-            Jugador readUser = jugadorServices.findByEmail(username);
-            //JugadorMongo readUser = userService.findByEmail(username);
+            //Jugador readUser = jugadorServices.findByEmail(username);
+            JugadorMongo readUser = jugadorServiceMongo.findByEmail(username);
             String token = jwtService.getJWTToken(username);
             JugadorLoginModel user = new JugadorLoginModel();
             user.setUser(username);
