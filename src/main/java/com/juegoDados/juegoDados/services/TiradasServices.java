@@ -16,6 +16,7 @@ public class TiradasServices {
     @Autowired
     TiradasRepository tiradasRepository;
 
+    //crea una partida
     public Tiradas createGame(Tiradas game) {
         return tiradasRepository.save(game);
     }
