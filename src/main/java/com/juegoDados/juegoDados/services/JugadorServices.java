@@ -2,7 +2,6 @@ package com.juegoDados.juegoDados.services;
 
 import com.juegoDados.juegoDados.models.Jugador;
 import com.juegoDados.juegoDados.repositories.JugadorRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,12 +31,12 @@ public class JugadorServices {
         return (ArrayList<Jugador>) jugadorRepository.findAll();
     }
 
-    //encuentra al jugador por el id
+    //busca al jugador por el id, se utiliza en createGame y readGame
     public Optional<Jugador> findUserById(Long id) {
         return jugadorRepository.findById(id);
     }
 
-    //encuentra por el email
+    //encuentra al jugador por el email
     public Jugador findByEmail(String email) {
         return jugadorRepository.findByEmail(email);
     }
@@ -47,14 +46,14 @@ public class JugadorServices {
         return jugadorRepository.save(user);
     }
 
-    //busca un jugador por el id
+    //busca por el id
     public Jugador findById(Long id) {
         return jugadorRepository.getById(id);
     }
 
     //hace verificaciones, primero busca x email,
     // pone anonimo al que no tiene nombre, y devuelve mensajes x si falta email,
-    //no permiite nombre repetido
+    //no permite email repetido, se utiliza en createUser
     public String verifyUserData(Jugador user) {
         user.setDate(new Date());
         Jugador verifyUser;

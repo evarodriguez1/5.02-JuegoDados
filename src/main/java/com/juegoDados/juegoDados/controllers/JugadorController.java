@@ -130,7 +130,7 @@ public class JugadorController {
 
     }
 
-    //devuelve una lista con el ranking
+    //devuelve una lista ordenada con el ranking(de menor a mayor según el porcentaje de exito)
     @GetMapping(path = "ranking")
     public ResponseEntity readRanking() {
         ArrayList<Jugador> jugadores;
@@ -142,7 +142,7 @@ public class JugadorController {
                 .body(ranking);
     }
 
-    //devuelve una lista con el ranking de perdedor
+    //devuelve al jugador que mas veces perdió
     @GetMapping(path = "ranking/loser")
     public ResponseEntity readLoserGamer() {
 
@@ -156,7 +156,7 @@ public class JugadorController {
 
     }
 
-    //devuelve una lista con el ranking de ganador
+    //devuelve al jugador que mas veces ganó
     @GetMapping(path = "ranking/winner")
     public ResponseEntity readWinnerGamer() {
 

@@ -30,12 +30,12 @@ public class TiradasServices {
     }
 
 
-    //calcula el porcentaje de cada jugador
+    //calcula el porcentaje del jugador con id x
     public ArrayList<Porcentaje> jugadorPorcentaje (ArrayList<Jugador> jugadores){
         ArrayList<Porcentaje> jugadorPorcentaje = new ArrayList<Porcentaje>();
-        ArrayList<Tiradas> jugadorTiradas = null;
+        ArrayList<Tiradas> jugadorTiradas;
         double suma = 0;
-        double porcentaje = 0;
+        double porcentaje;
         for(int i = 0; i < jugadores.size(); i++) {
             jugadorTiradas = findByUserId(jugadores.get(i).getId());
             for(int j = 0; j < jugadorTiradas.size(); j++) {
@@ -54,7 +54,7 @@ public class TiradasServices {
         return jugadorPorcentaje;
     }
 
-    //devuelve una lista con el ranking de todos los jugadores
+    //devuelve una lista ordenada (en funcion del porcentaje) con el ranking de todos los jugadores
     public ArrayList<Porcentaje> ranking (ArrayList<Jugador> jugadores) {
         ArrayList<Porcentaje> jugadorPorcentajeRanking = new ArrayList<Porcentaje>();
         jugadorPorcentajeRanking =  jugadorPorcentaje(jugadores);
@@ -62,7 +62,7 @@ public class TiradasServices {
         return jugadorPorcentajeRanking;
     }
 
-    //devuelve una lista coon los peores jugadores
+    //devuelve el peor jugador
     public Porcentaje peoresJugadores (ArrayList<Jugador> jugadores) {
 
         ArrayList<Porcentaje> jugadorPorcentajeRanking = new ArrayList<Porcentaje>();
@@ -71,7 +71,7 @@ public class TiradasServices {
         return jugadorPorcentajeRanking.get(0);
     }
 
-    //devuelve una lista con los mejores jugadores
+    //devuelve el mejor jugador
     public Porcentaje mejoresJugadores (ArrayList<Jugador> jugadores) {
 
         ArrayList<Porcentaje> jugadorPorcentajeRanking = new ArrayList<Porcentaje>();
@@ -80,7 +80,7 @@ public class TiradasServices {
         return jugadorPorcentajeRanking.get(jugadorPorcentajeRanking.size()-1);
     }
 
-    //verifica que sean valores correctos en los lanzamientos
+    //verifica que sean valores correctos en los lanzamientos, se utiliza en createGame
     public boolean verifyGameData(Tiradas juego) {
         boolean ok = true;
         if(juego.getDado1() >= 0 && juego.getDado1() <= 7 && juego.getDado2() >= 0 && juego.getDado2() <= 7) {
@@ -92,7 +92,7 @@ public class TiradasServices {
 
     }
 
-    //logica de juego, si suma 7 gana, sino pierde
+    //logica de juego, si suma 7 gana, sino pierde, se utiliza en createGame
     public String porcentaje(Tiradas juego) {
 
         int tiroUno = juego.getDado1();
