@@ -74,13 +74,13 @@ public class JugadorController {
                         .body(juego);
             }else if(id == null){
                 return (ResponseEntity.status(HttpStatus.OK))
-                        .body("falta el id");
+                        .body("no se encuentra el id");
             }else if(ok == false) {
                 return (ResponseEntity.status(HttpStatus.OK))
-                        .body("puntos fuera de rango");
+                        .body("jugador sin puntaje");
             }else {
                 return (ResponseEntity.status(HttpStatus.OK))
-                        .body("Faltan datos del juego");
+                        .body("Faltan datos");
             }
         }else {
             return (ResponseEntity.status(HttpStatus.BAD_REQUEST)).
@@ -115,7 +115,7 @@ public class JugadorController {
         jugador = jugadorServices.findUserById(id);
         if(jugador.isEmpty()) {
             return (ResponseEntity.status(HttpStatus.OK))
-                    .body("No se ha registrado este usuario");
+                    .body("Este usuario no se ha registrado");
         }else {
             partidas = tiradasServices.findByUserId(id);
             if(partidas.size() > 0) {
@@ -123,7 +123,7 @@ public class JugadorController {
                         .body(partidas);
             }else {
                 return (ResponseEntity.status(HttpStatus.OK))
-                        .body("no existen juegos registrados de este usuario");
+                        .body("no existen partidas de este usuario");
             }
 
         }

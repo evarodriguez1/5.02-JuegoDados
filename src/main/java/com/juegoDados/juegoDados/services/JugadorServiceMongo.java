@@ -25,7 +25,7 @@ public class JugadorServiceMongo {
     }
 
     //busca jugador por el id
-    public Optional<JugadorMongo> findUserById(String id) {
+    public Optional<JugadorMongo> findUserId(String id) {
         return jugadorRepositoryMongo.findById(id);
     }
 
@@ -44,7 +44,7 @@ public class JugadorServiceMongo {
         return jugadorRepositoryMongo.getById(id);
     }
 
-    //verifica la data del jugador
+    //verifica la data del jugador, se utiliza en el creatUser del controller
     public String verifyUserData(JugadorMongo user) {
         user.setDate(new Date());
         JugadorMongo verifyUser;
