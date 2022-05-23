@@ -24,7 +24,7 @@ public class JugadorLoginController {
     JugadorServiceMongo jugadorServiceMongo;
 
     @PostMapping()
-    public ResponseEntity login(@RequestParam("user") String nombreJugador) {
+    public ResponseEntity login(@RequestParam("nombreJugador") String nombreJugador) {
         try {
             //Jugador jugadorDatos = jugadorServices.findByEmail(nombreJugador);
             JugadorMongo jugadorDatos = jugadorServiceMongo.findByEmail(nombreJugador);

@@ -5,8 +5,8 @@ import com.juegoDados.juegoDados.repositories.JugadorRepositoryMongo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,41 +20,43 @@ public class JugadorServiceMongo {
     }
 
     //devuelve la lista de jugadores
-    public List<JugadorMongo> readUsers () {
-        return jugadorRepositoryMongo.findAll();
+    public ArrayList<JugadorMongo> readUsers () {
+        return (ArrayList<JugadorMongo>) jugadorRepositoryMongo.findAll();
     }
-
-    //busca jugador por el id
-    public Optional<JugadorMongo> findUserId(String id) {
+/*
+    //busca jugador por el id con el Optional
+    public Optional<JugadorMongo> findUserById(String id) {
         return jugadorRepositoryMongo.findById(id);
     }
+
+ */
 
     //busca jugador por email
     public JugadorMongo findByEmail(String email) {
         return jugadorRepositoryMongo.findByEmail(email);
     }
 
-    //guarda al jugador
-    public JugadorMongo saveUser(JugadorMongo user) {
-        return jugadorRepositoryMongo.save(user);
-    }
-
     //busca por id
-    public JugadorMongo findById(String id) {
+    public JugadorMongo getById(String id) {
         return jugadorRepositoryMongo.getById(id);
     }
 
-    //verifica la data del jugador, se utiliza en el creatUser del controller
-    public String verifyUserData(JugadorMongo user) {
-        user.setDate(new Date());
+    //guarda al jugador
+    public JugadorMongo saveUser(JugadorMongo jugador) {
+        return jugadorRepositoryMongo.save(jugador);
+    }
+
+    //verifica la data del jugador
+    public String verifyUserData(JugadorMongo jugador) {
+        jugador.setDate(new Date());
         JugadorMongo verifyUser;
-        verifyUser = jugadorRepositoryMongo.findByEmail(user.getEmail());
-        if(verifyUser == null && user.getEmail() != null ) {
-            if(user.getNombre() == null) {
-                user.setNombre("anonimo");
+        verifyUser = jugadorRepositoryMongo.findByEmail(jugador.getEmail());
+        if(verifyUser == null && jugador.getEmail() != null ) {
+            if(jugador.getNombre() == null) {
+                jugador.setNombre("anonimo");
             }
             return "creadoMongo";
-        }else if(user.getEmail() == null) {
+        }else if(jugador.getEmail() == null) {
             return "Falta email";
         }else {
             return "User exist";

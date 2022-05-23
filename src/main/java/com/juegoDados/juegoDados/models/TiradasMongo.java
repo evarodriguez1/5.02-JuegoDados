@@ -1,10 +1,11 @@
 package com.juegoDados.juegoDados.models;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.persistence.Id;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Document(collection = "game")
 public class TiradasMongo {

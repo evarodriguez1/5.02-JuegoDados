@@ -12,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/juegoMongo")
@@ -41,9 +39,9 @@ public class ControllerMongo {
 
     //actualiza el nombre del jugador
     @PutMapping(path = "/{id}")
-    public ResponseEntity updateUserName(@RequestBody Jugador jugadorEncontrado, @PathVariable("id") String id) {
+    public ResponseEntity updateUserName(@RequestBody JugadorMongo jugadorEncontrado, @PathVariable("id") String id) {
 
-        JugadorMongo jugador = jugadorServiceMongo.findById(id);
+        JugadorMongo jugador = jugadorServiceMongo.getById(id);
         if(jugador != null) {
             String nombreNuevo = jugadorEncontrado.getNombre();
             jugador.setNombre(nombreNuevo);
@@ -57,11 +55,11 @@ public class ControllerMongo {
 
     }
 
-    //crea una partida de un jugador especifico (id)
+    //devuelve la lista de todos los jugadores
     @GetMapping()
     public  ResponseEntity readUsers() {
 
-        ArrayList <JugadorMongo> jugadores = (ArrayList<JugadorMongo>) jugadorServiceMongo.readUsers();
+        ArrayList <JugadorMongo> jugadores = jugadorServiceMongo.readUsers();
         ArrayList<PorcentajeMongo> puntajeJugador;
         puntajeJugador = tiradasServiceMongo.userPorcentaje(jugadores);
         if(jugadores != null) {
@@ -73,13 +71,13 @@ public class ControllerMongo {
         }
     }
 
-    //devuelve la lista de todos los jugadores
+    //crea una partida de un jugador especifico (id)
     @PostMapping(path="/{id}/games")
-    public ResponseEntity createGames(@RequestBody TiradasMongo tirada, @PathVariable("id") String id) {
+    public ResponseEntity createGames(@RequestBody TiradasMongo tirada, @PathVariable String id) {
 
-        Optional<JugadorMongo> jugador = jugadorServiceMongo.findUserId(id);
+        JugadorMongo jugador = jugadorServiceMongo.getById(id);
 
-        if(!jugador.isEmpty()) {
+        if(jugador == null) {
             boolean ok = tiradasServiceMongo.verifyGameData(tirada);
             if(tirada != null && ok == true && id != null) {
                 String porcentajeExito = "";
@@ -99,7 +97,6 @@ public class ControllerMongo {
                 return (ResponseEntity.status(HttpStatus.OK))
                         .body("Faltan datos");
             }
-
         }else {
             return (ResponseEntity.status(HttpStatus.BAD_REQUEST)).
                     body("no existe el jugador");
@@ -110,15 +107,15 @@ public class ControllerMongo {
     @GetMapping(path = "/{id}/games")
     public ResponseEntity readGames(@PathVariable("id") String id) {
 
-        Optional<JugadorMongo> jugador;
+        JugadorMongo jugador;
         ArrayList<TiradasMongo> partidas;
-        jugador = jugadorServiceMongo.findUserId(id);
+        jugador = jugadorServiceMongo.getById(id);
 
-        if(jugador.isEmpty()) {
+        if(jugador != null) {
             return (ResponseEntity.status(HttpStatus.OK))
                     .body("este usuario no se ha registrado");
         }else {
-            partidas = tiradasServiceMongo.findByUserId(id);
+            partidas = tiradasServiceMongo.findByIdJugador(id);
             if(partidas.size() > 0) {
                 return (ResponseEntity.status(HttpStatus.OK))
                         .body(partidas);

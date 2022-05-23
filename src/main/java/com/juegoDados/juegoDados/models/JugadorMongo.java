@@ -3,9 +3,11 @@ package com.juegoDados.juegoDados.models;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.MongoId;
+
 import java.util.Date;
 
 @Data
@@ -13,7 +15,7 @@ import java.util.Date;
 public class JugadorMongo {
 
     @Getter @Setter
-    @MongoId
+    @Id
     @Field(name="id")
     private String id;
 

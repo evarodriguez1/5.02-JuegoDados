@@ -20,8 +20,13 @@ public class TiradasServiceMongo {
         return tiradasRepositoryMongo.save(tirada);
     }
 
-    public ArrayList<TiradasMongo> findByUserId(String id){
+    public ArrayList<TiradasMongo> findByIdJugador(String id){
         return tiradasRepositoryMongo.findByIdJugador(id);
+    }
+
+    //busca por id
+    public JugadorMongo findById(String id) {
+        return tiradasRepositoryMongo.getById(id);
     }
 
     public ArrayList<TiradasMongo> readUser(){
@@ -32,11 +37,11 @@ public class TiradasServiceMongo {
     public ArrayList<PorcentajeMongo> userPorcentaje(ArrayList<JugadorMongo> jugadores){
 
         ArrayList<PorcentajeMongo> porcentajeJugador = new ArrayList<PorcentajeMongo>();
-        ArrayList<TiradasMongo> tiradasJugador;
+        ArrayList<TiradasMongo> tiradasJugador = null;
         double suma = 0;
-        double porcentaje;
+        double porcentaje = 0;
         for(int i = 0; i < jugadores.size(); i++) {
-            tiradasJugador = findByUserId(jugadores.get(i).getId());
+            tiradasJugador = findByIdJugador(jugadores.get(i).getId());
             for(int j = 0; j < tiradasJugador.size(); j++) {
                 if(tiradasJugador.get(j).getTiro().equals("gano")) {
                     suma = suma + 1;
@@ -49,6 +54,7 @@ public class TiradasServiceMongo {
             datosJugador.setPorcentaje(porcentaje);
             porcentajeJugador.add(i, datosJugador);
             suma = 0;
+            tiradasJugador = null;
 
         }
         return porcentajeJugador;
