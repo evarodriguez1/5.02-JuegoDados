@@ -38,7 +38,6 @@ public class JugadorController {
         }
     }
 
-
     //actualiza el nombre del jugador
     @PutMapping(path = "/{id}")
     public ResponseEntity updateUserName(@RequestBody Jugador jugadorEncontrado, @PathVariable Long id) {
@@ -89,6 +88,19 @@ public class JugadorController {
 
     }
 
+
+    //elimina las partidas de un jugador
+    @DeleteMapping(path = "/{id}/games")
+    public ResponseEntity deleteTiradas (@PathVariable ("id") Long id){
+        Optional<Jugador> jugador = jugadorServices.findUserById(id);
+        if(!jugador.isEmpty()) {
+            tiradasServices.deleteTiradas(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Partidas eliminadas");
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se encuentra");
+        }
+    }
+
     //devuelve la lista de todos los jugadores
     @GetMapping()
     public ResponseEntity readUsers() {
@@ -109,7 +121,6 @@ public class JugadorController {
     //devuelve todas las partidas de un jugador
     @GetMapping(path = "/{id}/games")
     public ResponseEntity readGames(@PathVariable("id") Long id) {
-        //leer token, comparar con el id que se ingresa
         Optional<Jugador> jugador;
         ArrayList<Tiradas> partidas;
         jugador = jugadorServices.findUserById(id);
@@ -117,7 +128,7 @@ public class JugadorController {
             return (ResponseEntity.status(HttpStatus.OK))
                     .body("Este usuario no se ha registrado");
         }else {
-            partidas = tiradasServices.findByUserId(id);
+            partidas = tiradasServices.findByIdJugador(id);
             if(partidas.size() > 0) {
                 return (ResponseEntity.status(HttpStatus.OK))
                         .body(partidas);

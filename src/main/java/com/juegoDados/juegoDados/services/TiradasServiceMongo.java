@@ -16,24 +16,23 @@ public class TiradasServiceMongo {
     @Autowired
     TiradasRepositoryMongo tiradasRepositoryMongo;
 
+    //crea una tirada
     public TiradasMongo createGame(TiradasMongo tirada) {
         return tiradasRepositoryMongo.save(tirada);
     }
 
+    //busca en las tiradas por id del jugador
     public ArrayList<TiradasMongo> findByIdJugador(String id){
         return tiradasRepositoryMongo.findByIdJugador(id);
     }
 
-    //busca por id
-    public JugadorMongo findById(String id) {
-        return tiradasRepositoryMongo.getById(id);
+    //elimina las partidas de un jugador
+    public void deleteTiradas(String id){
+        tiradasRepositoryMongo.deleteAll(findByIdJugador(id));
+
     }
 
-    public ArrayList<TiradasMongo> readUser(){
-        return (ArrayList<TiradasMongo>) tiradasRepositoryMongo.findAll();
-    }
-
-
+    //calcula el porcentaje del jugador con id x
     public ArrayList<PorcentajeMongo> userPorcentaje(ArrayList<JugadorMongo> jugadores){
 
         ArrayList<PorcentajeMongo> porcentajeJugador = new ArrayList<PorcentajeMongo>();
@@ -60,6 +59,7 @@ public class TiradasServiceMongo {
         return porcentajeJugador;
     }
 
+    //devuelve una lista ordenada (en funcion del porcentaje descendente) con el ranking de todos los jugadores
     public ArrayList<PorcentajeMongo> ranking(ArrayList<JugadorMongo> jugadores) {
         ArrayList<PorcentajeMongo> jugadorPorcentajeRnking;
         jugadorPorcentajeRnking =  userPorcentaje(jugadores);
@@ -67,7 +67,7 @@ public class TiradasServiceMongo {
         return jugadorPorcentajeRnking;
     }
 
-
+    //devuelve el peor jugador
     public PorcentajeMongo peorJugador(ArrayList<JugadorMongo> jugadores) {
 
         ArrayList<PorcentajeMongo> jugadorPorcentajeRnking;
@@ -77,6 +77,7 @@ public class TiradasServiceMongo {
 
     }
 
+    //devuelve el mejor jugador
     public PorcentajeMongo mejorJugador(ArrayList<JugadorMongo> jugadores) {
 
         ArrayList<PorcentajeMongo> jugadorPorcentajeRnking;
@@ -85,6 +86,7 @@ public class TiradasServiceMongo {
         return jugadorPorcentajeRnking.get(jugadorPorcentajeRnking.size()-1);
     }
 
+    //verifica que sean valores correctos en los lanzamientos, se utiliza en createGame
     public boolean verifyGameData(TiradasMongo tirada) {
         boolean ok = true;
         if(tirada.getDado1() >= 0 && tirada.getDado1()<= 7 && tirada.getDado2() >= 0 && tirada.getDado2() <= 7) {
@@ -96,6 +98,7 @@ public class TiradasServiceMongo {
 
     }
 
+    //calcula el porcentaje del jugador con id x
     public String porcentaje(TiradasMongo tirada) {
 
         int tiro1 = tirada.getDado1();

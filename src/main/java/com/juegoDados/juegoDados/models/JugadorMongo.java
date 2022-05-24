@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.Date;
 
@@ -47,4 +46,6 @@ public class JugadorMongo {
     public String toString() {
         return "JugadorMongo [id=" + id + ", nombre=" + nombre + ", email=" + email + ", date=" + date + "]";
     }
+
+
 }

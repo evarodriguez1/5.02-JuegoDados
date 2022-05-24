@@ -9,6 +9,5 @@ import java.util.ArrayList;
 public interface TiradasRepositoryMongo extends MongoRepository<TiradasMongo, String> {
 
     ArrayList<TiradasMongo> findByIdJugador(String id);
-    JugadorMongo getById(String id);
 
 }

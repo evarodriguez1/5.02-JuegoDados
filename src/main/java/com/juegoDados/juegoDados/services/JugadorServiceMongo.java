@@ -15,6 +15,7 @@ public class JugadorServiceMongo {
     @Autowired
     JugadorRepositoryMongo jugadorRepositoryMongo;
 
+    //crea un jugador
     public JugadorMongo createUser(JugadorMongo jugador) {
         return jugadorRepositoryMongo.save(jugador);
     }
@@ -28,9 +29,7 @@ public class JugadorServiceMongo {
     public Optional<JugadorMongo> findUserById(String id) {
         return jugadorRepositoryMongo.findById(id);
     }
-
  */
-
     //busca jugador por email
     public JugadorMongo findByEmail(String email) {
         return jugadorRepositoryMongo.findByEmail(email);
@@ -41,11 +40,24 @@ public class JugadorServiceMongo {
         return jugadorRepositoryMongo.getById(id);
     }
 
+    //comprueba si el jugador existe
+    public boolean existe(String id) {
+        boolean existe = false;
+
+        for (JugadorMongo jm:readUsers()) {
+            if(id.equals(jm.getId())){
+                existe=true;
+            }
+        }
+        return existe;
+    }
+/*
     //guarda al jugador
     public JugadorMongo saveUser(JugadorMongo jugador) {
         return jugadorRepositoryMongo.save(jugador);
     }
 
+ */
     //verifica la data del jugador
     public String verifyUserData(JugadorMongo jugador) {
         jugador.setDate(new Date());

@@ -1,6 +1,5 @@
 package com.juegoDados.juegoDados.controllers;
 
-import com.juegoDados.juegoDados.models.Jugador;
 import com.juegoDados.juegoDados.models.JugadorMongo;
 import com.juegoDados.juegoDados.models.PorcentajeMongo;
 import com.juegoDados.juegoDados.models.TiradasMongo;
@@ -12,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/juegoMongo")
@@ -41,15 +41,14 @@ public class ControllerMongo {
     @PutMapping(path = "/{id}")
     public ResponseEntity updateUserName(@RequestBody JugadorMongo jugadorEncontrado, @PathVariable("id") String id) {
 
-        JugadorMongo jugador = jugadorServiceMongo.getById(id);
-        if(jugador != null) {
-            String nombreNuevo = jugadorEncontrado.getNombre();
-            jugador.setNombre(nombreNuevo);
-            jugadorServiceMongo.saveUser(jugador);
+        JugadorMongo jugadorMongo = jugadorServiceMongo.getById(id);
+        if(jugadorServiceMongo.existe(id)){
+            jugadorMongo.setNombre(jugadorEncontrado.getNombre());
             return (ResponseEntity.status(HttpStatus.OK))
                     .body("Actualizado");
+
         }else {
-            return (ResponseEntity.status(HttpStatus.NO_CONTENT))
+            return (ResponseEntity.status(HttpStatus.BAD_REQUEST))
                     .body("No existe el jugador");
         }
 
@@ -68,6 +67,18 @@ public class ControllerMongo {
         }else {
             return (ResponseEntity.status(HttpStatus.OK))
                     .body("No existen usuarios registrados");
+        }
+    }
+
+    //elimina las partidas de un jugador
+    @DeleteMapping(path = "/{id}/games")
+    public ResponseEntity deleteTiradas (@PathVariable ("id") String id){
+        JugadorMongo jugador = jugadorServiceMongo.getById(id);
+        if(jugador != null) {
+            tiradasServiceMongo.deleteTiradas(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Partidas eliminadas");
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se encuentra");
         }
     }
 

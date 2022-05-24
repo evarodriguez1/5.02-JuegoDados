@@ -31,9 +31,9 @@ public class JugadorServices {
         return (ArrayList<Jugador>) jugadorRepository.findAll();
     }
 
-    //busca al jugador por el id, se utiliza en createGame y readGame
-    public Optional<Jugador> findUserById(Long id) {
-        return jugadorRepository.findById(id);
+    //guarda al jugador se usa para el update
+    public Jugador saveUser(Jugador jugador) {
+        return jugadorRepository.save(jugador);
     }
 
     //encuentra al jugador por el email
@@ -41,14 +41,14 @@ public class JugadorServices {
         return jugadorRepository.findByEmail(email);
     }
 
-    //guarda al jugador se usa para el update
-    public Jugador saveUser(Jugador user) {
-        return jugadorRepository.save(user);
-    }
-
     //busca por el id
     public Jugador findById(Long id) {
         return jugadorRepository.getById(id);
+    }
+
+    //busca al jugador por el id, se utiliza en createGame y readGame
+    public Optional<Jugador> findUserById(Long id) {
+        return jugadorRepository.findById(id);
     }
 
     //hace verificaciones, primero busca x email,

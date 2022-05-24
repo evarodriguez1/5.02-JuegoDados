@@ -21,41 +21,18 @@ public class TiradasServices {
         return tiradasRepository.save(game);
     }
 
-    //busca al jugador por el id
-    public ArrayList<Tiradas> findByUserId(Long id){
-        return tiradasRepository.findByIdJugador(id);
-    }
+    //elimina las partidas de un jugador
+    public void deleteTiradas(Long id){
+        tiradasRepository.deleteAll(findByIdJugador(id));
 
+    }
+/*
+    //devuelve las tiradas de un jugador
     public ArrayList<Tiradas> readUser(){
         return (ArrayList<Tiradas>) tiradasRepository.findAll();
     }
-
-
-    //calcula el porcentaje del jugador con id x
-    public ArrayList<Porcentaje> jugadorPorcentaje (ArrayList<Jugador> jugadores){
-        ArrayList<Porcentaje> jugadorPorcentaje = new ArrayList<Porcentaje>();
-        ArrayList<Tiradas> jugadorTiradas;
-        double suma = 0;
-        double porcentaje;
-        for(int i = 0; i < jugadores.size(); i++) {
-            jugadorTiradas = findByUserId(jugadores.get(i).getId());
-            for(int j = 0; j < jugadorTiradas.size(); j++) {
-                if(jugadorTiradas.get(j).getTiro().equals("gano")) {
-                    suma = suma + 1;
-                }
-            }
-            porcentaje = suma / jugadorTiradas.size();
-            Porcentaje datosJugador = new Porcentaje(null, null, null);
-            datosJugador.setId(jugadores.get(i).getId());
-            datosJugador.setName(jugadores.get(i).getNombre());
-            datosJugador.setPorcentaje(porcentaje);
-            jugadorPorcentaje.add(i, datosJugador);
-            suma = 0;
-        }
-        return jugadorPorcentaje;
-    }
-
-    //devuelve una lista ordenada (en funcion del porcentaje) con el ranking de todos los jugadores
+ */
+    //devuelve una lista ordenada (en funcion del porcentaje descendente) con el ranking de todos los jugadores
     public ArrayList<Porcentaje> ranking (ArrayList<Jugador> jugadores) {
         ArrayList<Porcentaje> jugadorPorcentajeRanking = new ArrayList<Porcentaje>();
         jugadorPorcentajeRanking =  jugadorPorcentaje(jugadores);
@@ -79,6 +56,35 @@ public class TiradasServices {
         jugadorPorcentajeRanking =  jugadorPorcentaje(jugadores);
         Collections.sort(jugadorPorcentajeRanking);
         return jugadorPorcentajeRanking.get(jugadorPorcentajeRanking.size()-1);
+    }
+
+    //busca al jugador por el id se utiliza en el ReadGames del controller
+    public ArrayList<Tiradas> findByIdJugador(Long id){
+        return tiradasRepository.findByIdJugador(id);
+    }
+
+    //calcula el porcentaje del jugador con id x
+    public ArrayList<Porcentaje> jugadorPorcentaje (ArrayList<Jugador> jugadores){
+        ArrayList<Porcentaje> jugadorPorcentaje = new ArrayList<Porcentaje>();
+        ArrayList<Tiradas> jugadorTiradas;
+        double suma = 0;
+        double porcentaje;
+        for(int i = 0; i < jugadores.size(); i++) {
+            jugadorTiradas = findByIdJugador(jugadores.get(i).getId());
+            for(int j = 0; j < jugadorTiradas.size(); j++) {
+                if(jugadorTiradas.get(j).getTiro().equals("gano")) {
+                    suma = suma + 1;
+                }
+            }
+            porcentaje = suma / jugadorTiradas.size();
+            Porcentaje datosJugador = new Porcentaje(null, null, null);
+            datosJugador.setId(jugadores.get(i).getId());
+            datosJugador.setName(jugadores.get(i).getNombre());
+            datosJugador.setPorcentaje(porcentaje);
+            jugadorPorcentaje.add(i, datosJugador);
+            suma = 0;
+        }
+        return jugadorPorcentaje;
     }
 
     //verifica que sean valores correctos en los lanzamientos, se utiliza en createGame

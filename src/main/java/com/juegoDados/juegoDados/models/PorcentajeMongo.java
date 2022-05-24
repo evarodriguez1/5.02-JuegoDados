@@ -14,7 +14,7 @@ public class PorcentajeMongo implements  Comparable<PorcentajeMongo> {
     @Getter @Setter
     private  Double porcentaje;
 
-
+    //contructor
     public PorcentajeMongo(String id, String name, Double percentaje) {
         this.id = id;
         this.name = name;
@@ -27,8 +27,6 @@ public class PorcentajeMongo implements  Comparable<PorcentajeMongo> {
 
         return (porcentaje).compareTo(o.porcentaje);
     }
-
-
 
     @Override
     public String toString() {
